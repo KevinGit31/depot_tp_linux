@@ -4,8 +4,11 @@ Vagrant.configure('2') do |config|
  config.vm.box = 'debian/buster64'
  # config.vm.box = "puppetlabs/debian-7.8-64-puppet"
  config.vm.box_check_update = false
-
- config.vm.network "public_network", ip: "192.168.0.12"
+ config.vm.network 'forwarded_port',
+                          guest: 8080,
+                          host: 5001,
+                          host_ip: '192.168.43.221'
+ config.vm.network 'private_network',ip: '172.30.1.3'
  # Mettre en place un cache pour APT
  # config.vm.synced_folder 'v-cache', '/var/cache/apt'
  config.vm.define 'server' do |machine|
@@ -25,5 +28,6 @@ Vagrant.configure('2') do |config|
  disk2_vdi]
  end
  end
- # config.vm.provision 'shell', path: 'provision.sh'
+ config.vm.provision 'shell', path: 'provision.sh'
+ #config.vm.provision 'shell', path: 'test.sh'
 end

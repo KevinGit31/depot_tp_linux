@@ -6,3 +6,4 @@ vagrant/.vagrant.d/
 
 vagrant-rsync-work/vagrant/*
 vagrant-rsync-work/.vagrant/*
+.idea/
