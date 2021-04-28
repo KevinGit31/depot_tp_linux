@@ -6,15 +6,15 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "bento/ubuntu-20.10"
 
-  config.vm.network "public_network", ip: "192.168.0.17"
+  config.vm.network 'private_network',ip: '172.30.1.103'
 
   # Provision
-  config.vm.provision :shell, :path => "vagrant/provision.sh"
+  #config.vm.provision :shell, :path => "vagrant/provision.sh"
   
   # To access a website running on port 8000, we can open a web browser  
   # on our workstation and go to http://localhost:8000
   config.vm.network "forwarded_port", guest: 8000, host: 8000
 
   # Shared folder
-  config.vm.synced_folder "vagrant/", "/home/vagrant", create: true
+  config.vm.synced_folder "vagrant-rsync/", "/home/vagrant", create: true
 end
