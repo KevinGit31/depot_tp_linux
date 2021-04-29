@@ -66,6 +66,15 @@ kg_config_ufw() {
 	ufw allow OpenSSH
 }
 
+kg_display_ipadress_machine(){
+    echo "*******************************"
+    echo "Adresse ip serveur jenkins"
+    echo "Veuillez notez votre IP quelque part"
+    # Cette command permet de récupérer l'adresse ip de la machine après un ip on va filtrer
+    ip a | grep eth1 | grep inet | awk -F "/" '{print $1}' | awk -F " " '{print $2}'
+    echo "*******************************"
+}
+
 ## Installer package
 apt-get update
 for package in $PACKAGES
@@ -77,5 +86,6 @@ for package in $PACKAGES
 kg_apache2_datadir_setup "$DIRECTORY"
 kg_apache2_reload
 kg_config_ufw
+kg_display_ipadress_machine
 
 echo "Success"
