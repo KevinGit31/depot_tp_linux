@@ -20,4 +20,5 @@ Vagrant.configure('2') do |config|
         end
     end
     config.vm.synced_folder "vagrant-rsync/", "/home/rsync", create: true
+    #config.vm.provision 'shell', path: 'vagrant-rsync/provision.sh'
 end
