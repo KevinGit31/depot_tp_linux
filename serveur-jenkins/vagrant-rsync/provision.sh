@@ -139,27 +139,31 @@ ps_assert_root
 apt-get update
 
 ## Instalation de la liste de nos packages
-#for PACKAGE in $PACKAGES_LIST ; do
+for PACKAGE in $PACKAGES_LIST ; do
     # Instalation du package
-#    if [ "$PACKAGE" = "$JENKINS_PACKAGE" ] ; then
-#       ps_install_jenkins "$PACKAGE"
-#    else
-#       ps_install_package "$PACKAGE"
-#    fi
-#done
+    if [ "$PACKAGE" = "$JENKINS_PACKAGE" ] ; then
+       ps_install_jenkins "$PACKAGE"
+    else
+       ps_install_package "$PACKAGE"
+    fi
+done
 
 ## Start jenkins
-#ps_start_jenkins
+ps_start_jenkins
 
 ## Init and start the firewall
-#ps_init_firewall
+ps_init_firewall
+
 ## Create user jenkins
-#ps_verif_user_jenkins_exist
-#ps_create_update_user_jenkins
+ps_verif_user_jenkins_exist
+ps_create_update_user_jenkins
+
 ## Create partition ext4
-#ps_create_partition_ext4
+ps_create_partition_ext4
+
 ## Show initial password admin
-#ps_display_initialAdminPassword
+ps_display_initialAdminPassword
+
 ## Display ip machine for user
 ps_display_ipadress_machine
 echo ""
