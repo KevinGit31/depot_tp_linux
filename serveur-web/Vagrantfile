@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby sw=2 st=2 et :
+Vagrant.configure('2') do |config|
+
+    config.vm.box = 'debian/buster64'
+    
+    # config.vm.box = "puppetlabs/debian-7.8-64-puppet"
+    config.vm.box_check_update = false
+
+    config.vm.network 'forwarded_port',
+    guest: 80,
+    host: 5005,
+    host_ip: 'localhost'
+    config.vm.network 'private_network',ip: '172.30.1.2'
+
+    # Mettre en place un cache pour APT
+    config.vm.define 'web' do |machine|
+
+        machine.vm.hostname = 'web'
+
+        # Limiter la RAM de la VM Vanessa David Avril 2021
+        machine.vm.provider 'virtualbox' do |vb|
+            vb.memory = '3000'
+        end
+    end
+    config.vm.synced_folder "vagrant-rsync/", "/home/rsync", create: true
+    #config.vm.provision 'shell', path: 'vagrant-rsync/provision.sh'
+end
