@@ -159,7 +159,7 @@ ps_verif_user_jenkins_exist
 ps_create_update_user_jenkins
 
 ## Create partition ext4
-#ps_create_partition_ext4
+ps_create_partition_ext4
 
 ## Show initial password admin
 ps_display_initialAdminPassword
