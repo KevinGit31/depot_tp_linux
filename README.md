@@ -2,6 +2,7 @@
 
 ## _Ce document a pour but de guider et d'aider l'utilisateur à installer les différents environnements, exécuter les différents scripts._
 
+Pour 
 Ce document va se présenter en 6 parties:
 - installation des postes de Dev
 - installation du serveur jenkins
@@ -194,7 +195,7 @@ Une fois la VM redemarré s'y connecter en utilisant la commande
 vagrant ssh
 ```
 
-Pour vérifier que la sauvegarde s'effectue correctement, taper la commande suivante et le répertoire doit contenir des fichiers de sauvegardes.
+Pour vérifier que la sauvegarde s'effectue correctement attendre 1min environ, taper la commande suivante et le répertoire doit contenir des fichiers de sauvegardes.
 
 ```sh
 ls /nfs/web
@@ -233,7 +234,7 @@ Une fois la VM redemarré s'y connecter en utilisant la commande
 vagrant ssh
 ```
 
-Pour vérifier que la sauvegarde s'effectue correctement, taper la commande suivante et le répertoire doit contenir des fichiers de sauvegardes.
+Pour vérifier que la sauvegarde s'effectue correctement attendre 1min environ, taper la commande suivante et le répertoire doit contenir des fichiers de sauvegardes.
 
 ```sh
 ls /nfs/jenkins
