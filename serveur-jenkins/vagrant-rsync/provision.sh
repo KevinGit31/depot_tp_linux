@@ -8,7 +8,7 @@ set -e # en cas d'erreur (code de retour non-zero) arreter le script
 # fonctions, variables, etc.
 # afin d'eviter les collisions, je vais préfixer mes fonction par ps_
 # ps égale Poste
-PACKAGES_LIST="gnupg gnupg2 gnupg1 openjdk-11-jdk ufw jenkins"
+PACKAGES_LIST="gnupg gnupg2 gnupg1 openjdk-11-jdk ufw jenkins cron"
 JENKINS_PACKAGE="jenkins"
 SECRET_DIRECTORY="/var/lib/jenkins/secrets/initialAdminPassword"
 USER_JOB_JENKINS="userjob"

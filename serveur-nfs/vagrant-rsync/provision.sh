@@ -16,7 +16,12 @@ CLIENT_WEB_IP="172.30.1.2"
 CLIENT_JENKINS_IP="172.30.1.3"
 CONFIG_EXIST=""
 
-
+# Archive des dossiers de partage
+SOURCE_JENKINS=/var/nfs/jenkins/
+SOURCE_WEB=/var/nfs/web/
+TARGET_JENKINS=/var/nfs/jenkins
+TARGET_WEB=/var/nfs/web
+SCRIPT_SAUVEGARDE=/home/rsync/cron_tar.sh
 
 # Afficher de l'aide
 ns_help(){
@@ -39,6 +44,7 @@ ns_assert_root(){
 ns_install_server(){
     if ! dpkg -l |grep --quiet "^ii.*nfs-kernel-server " ; then 
         apt-get install -y nfs-kernel-server
+        
     else
         echo ""
         echo "Le serveur nfs est déjà installé."
@@ -58,6 +64,31 @@ else
 fi
 }
 
+ns_config_sauvegarde_cron(){
+
+SCRIPT=$1
+SRC=$2
+TAR=$3
+
+    CONFIG_EXIST=$(cat /etc/crontab | grep "$SCRIPT $SRC $TAR" | wc -l)
+    if [ "$CONFIG_EXIST" -eq 0 ] ; then 
+    
+    #Pour des besoins de test le script s'execute tous les minutes
+    echo "*/5 * * * * root /bin/bash $SCRIPT $SRC $TAR" >> /etc/crontab  
+
+    # Configue pour l'execution chaque heure 
+    #"0 * * * * root /bin/bash $SCRIPT $SRC $TAR" >> /etc/crontab
+    echo "Configuration du fichier /etc/crontab ok ."
+else
+# Modification du du fichier /etc/crontab
+    sed '/\/home\/rsync\/cron_tar\.sh/d' /etc/crontab > /etc/crontab_
+    mv /etc/crontab_  /etc/crontab
+    echo "*/5 * * * * root /bin/bash $SCRIPT $SRC $TAR" >> /etc/crontab
+    echo "Cette configuration existe déjà."
+fi
+
+}
+
 # Configuration ufw
 ns_ufw_config(){
 apt install ufw -y
@@ -71,6 +102,8 @@ ufw status
 
 ### POINT D'ENTRER DU SCRIPT ###
 ns_assert_root 
+
+apt-get install -y cron
 
 # Install serveur nsf
 ns_install_server
@@ -88,6 +121,9 @@ systemctl restart nfs-kernel-server
 
 # Install ufw 
 ns_ufw_config
+
+ns_config_sauvegarde_cron  $SCRIPT_SAUVEGARDE $SOURCE_JENKINS $TARGET_JENKINS
+ns_config_sauvegarde_cron  $SCRIPT_SAUVEGARDE $SOURCE_WEB $TARGET_WEB
 
 echo ""
 echo "Success"

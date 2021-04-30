@@ -6,7 +6,7 @@ set -e # en cas d'erreur (code de retour non-zero) arreter le script
 
 DIRECTORY="/var/www/html"
 
-PACKAGES="apache2 ufw w3m"
+PACKAGES="apache2 ufw w3m cron"
 
 kg_install_apache_ufw() {
 	PACKAGE_NAME="$1"
@@ -33,28 +33,7 @@ kg_apache2_reload() {
 }
 
 kg_page_html() {
-	echo "!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
-	<html>
-	<head>
-	 <title>Ma première page avec du style</title>
-	</head>
-	<body>
-	<!-- Menu de navigation du site -->
-	<ul class='navbar'>
-	 <li><a href='index.html'>Home page</a>
-	</ul>
-	<!-- Contenu principal -->
-	<h1>Ma première page avec du style</h1>
-	<p>Bienvenue sur ma page avec du style!
-	<p>Il lui manque des images, mais au moins, elle a du style. Et elle a des
-	liens, même s'ils ne mènent nulle part...
-	Vanessa David Avril 2021&hellip;
-	<p>Je devrais étayer, mais je ne sais comment encore.
-	<!-- Signer et dater la page, c'est une question de politesse! -->
-	<address>Fait le 22 avril 2021<br>
-	 par moi.</address>
-	</body>
-	</html>" > /var/www/html/index.html
+	cp -R /home/rsync/page/index.html /var/www/html/
 }
 
 kg_config_ufw() {

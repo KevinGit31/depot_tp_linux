@@ -18,6 +18,11 @@ SERVEUR_SHAREFOLDER=/var/nfs/web
 # Adresse Ip du serveur NFS
 SERVEUR_NFS_IP="172.30.1.101"
 
+# Sauvegarde de fichier
+SOURCE=/var/www/html
+TARGET=/nfs/web
+SCRIPT_SAUVEGARDE=/home/rsync/cron.sh
+
 # Vérifier que le script est lancé en tant que root
 ns_assert_root(){
 	REAL_ID="$(id -u)"
@@ -61,6 +66,23 @@ fi
 
 }
 
+ns_config_sauvegarde_cron(){
+
+    CONFIG_EXIST=$(cat /etc/crontab | grep "$SCRIPT_SAUVEGARDE $SOURCE $TARGET" | wc -l)
+    if [ "$CONFIG_EXIST" -eq 0 ] ; then 
+    
+        #Pour des besoins de test le script s'execute tous les minutes
+    echo "* * * * * root /bin/bash $SCRIPT_SAUVEGARDE $SOURCE $TARGET" >> /etc/crontab  
+
+    # Configue pour l'execution chaque heure 
+    #"0 * * * * root /bin/bash $SCRIPT_SAUVEGARDE $SOURCE $TARGET" >> /etc/crontab
+    echo "Configuration du fichier /etc/crontab ok ."
+else    
+    echo "Cette configuration existe déjà."
+fi
+
+}
+
 # Redémarrage de la machine
 ns_reboot(){
     echo ""
@@ -81,6 +103,8 @@ mkdir $SHAREFOLDER -p
 
 # Configuration du fichier /etc/fstab
 ns_config_fstab_file $SERVEUR_NFS_IP $SERVEUR_SHAREFOLDER    $SHAREFOLDER 
+
+ns_config_sauvegarde_cron
 
 ns_reboot
 

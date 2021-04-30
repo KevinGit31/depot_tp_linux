@@ -86,3 +86,9 @@ ipmachine
 et normalement vous devez atterir sur cette page. ![Test Image 3](img/Capture_serveur-web_browser.png)
 
 Voilà l'installation de votre serveur nfs est un succès.
+
+
+## dos2unix
+
+Sauvegarde sur le serveur nfs chaque minute
+Archivage tous les 5 minutes
